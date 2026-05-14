@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+LAB_NAME = "Doorbell_Relay"
+
+LAB_DESC = (
+    "Software-only OOK/ASK wireless doorbell simulation.\n\n"
+    "Includes:\n"
+    "- GNU Radio visualization\n"
+    "- Waterfall analysis\n"
+    "- Simulated RF bursts\n"
+    "- Signal replay concepts"
+)
+
 import sys
 import shutil
 import subprocess

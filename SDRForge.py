@@ -4,6 +4,7 @@ from __future__ import annotations
 import os
 import sys
 import subprocess
+import importlib.util
 
 from dataclasses import dataclass
 from pathlib import Path
@@ -38,19 +39,29 @@ class LabInfo:
     file: Path
 
 
+def load_lab_metadata(py: Path) -> tuple[str, str]:
+    name = py.stem.replace("_", " ")
+    desc = "No description available."
+
+    try:
+        module_name = f"sdrforge_lab_{py.stem}"
+        spec = importlib.util.spec_from_file_location(module_name, py)
+
+        if spec and spec.loader:
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+
+            name = str(getattr(module, "LAB_NAME", name))
+            desc = str(getattr(module, "LAB_DESC", desc))
+
+    except Exception:
+        pass
+
+    return name, desc
+
+
 def discover_labs() -> List[LabInfo]:
     labs: List[LabInfo] = []
-
-    descriptions = {
-        "Doorbell": (
-            "Software-only OOK/ASK wireless doorbell simulation.\n\n"
-            "Includes:\n"
-            "- GNU Radio visualization\n"
-            "- Waterfall analysis\n"
-            "- Simulated RF bursts\n"
-            "- How It's Done flowgraph view"
-        ),
-    }
 
     if not LABS_DIR.exists():
         return labs
@@ -62,12 +73,12 @@ def discover_labs() -> List[LabInfo]:
         if py.name == "SDRForge.py":
             continue
 
-        name = py.stem.replace("_", " ")
+        name, desc = load_lab_metadata(py)
 
         labs.append(
             LabInfo(
                 name=name,
-                desc=descriptions.get(name, "No description available."),
+                desc=desc,
                 file=py,
             )
         )
@@ -177,6 +188,7 @@ def run_menu(labs: List[LabInfo]) -> Optional[LabInfo]:
 
             if 0 <= idx < len(self.labs):
                 lab = self.labs[idx]
+
                 details.update(
                     f"[b]{lab.name}[/b]\n\n"
                     f"{lab.desc}\n\n"
@@ -192,7 +204,10 @@ def run_menu(labs: List[LabInfo]) -> Optional[LabInfo]:
             idx = event.list_view.index or 0
             self.update_details(idx)
 
-        def on_list_view_selected(self, event: ListView.Selected) -> None:
+        def on_list_view_selected(
+            self,
+            event: ListView.Selected,
+        ) -> None:
             idx = event.list_view.index or 0
 
             if 0 <= idx < len(self.labs):
