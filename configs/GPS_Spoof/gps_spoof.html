@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GPS Spoof</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+
+<body>
+    <div class="topbar">
+        <div>
+            <h1>GPS Spoof</h1>
+            <p>Educational GPS location manipulation simulator</p>
+        </div>
+
+        <div class="status-box">
+            <span id="satLock">SAT LOCK: 12</span>
+            <span id="signal">SIGNAL: STRONG</span>
+            <span id="accuracy">ACCURACY: ±3m</span>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button onclick="scrambleLocation()">Scramble</button>
+        <button onclick="driftLocation()">Drift</button>
+        <button onclick="startCarryOff()">Carry-Off</button>
+        <button onclick="stopCarryOff()">Stop</button>
+        <button onclick="returnHome()">Return Home</button>
+    </div>
+
+    <div class="info-panel">
+        <div id="realCoords"></div>
+        <div id="spoofCoords"></div>
+        <div id="mode"></div>
+    </div>
+
+    <div id="map"></div>
+
+    <script src="spoof.js"></script>
+</body>
+</html>
