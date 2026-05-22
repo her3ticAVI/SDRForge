@@ -1,0 +1,227 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #02060a;
+  color: #d7f3ff;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  border-bottom: 1px solid #0d3b5c;
+  background: linear-gradient(
+    90deg,
+    #03111f,
+    #04192d
+  );
+}
+
+header h1 {
+  font-size: 28px;
+  color: #00d9ff;
+  letter-spacing: 1px;
+}
+
+header p {
+  color: #8aa7b8;
+  margin-top: 4px;
+}
+
+.status {
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid #00ff88;
+  color: #00ff88;
+  font-weight: bold;
+  background: rgba(0,255,136,0.08);
+}
+
+main {
+  display: grid;
+  grid-template-columns: 38% 38% 24%;
+  grid-auto-rows: auto;
+  gap: 14px;
+  padding: 14px;
+  align-items: start;
+}
+
+.map-panel {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.spectrum-panel {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.devices-panel {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+}
+
+.alerts-panel {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.captures-panel {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.packets-panel {
+  grid-column: 1 / span 3;
+  grid-row: 3;
+}
+
+.panel {
+  background: #03111f;
+  border: 1px solid #0d3b5c;
+  border-radius: 16px;
+  padding: 14px;
+  overflow: hidden;
+}
+
+.panel h2 {
+  font-size: 16px;
+  color: #bdeaff;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+canvas {
+  width: 100%;
+  border-radius: 12px;
+  background: #02060a;
+  border: 1px solid #0d2434;
+}
+
+#map {
+  height: 340px;
+}
+
+#spectrum {
+  height: 340px;
+}
+
+#devices,
+#alerts,
+#packets,
+#captures {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#devices {
+  max-height: 760px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+#alerts,
+#captures {
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+#packets {
+  max-height: 180px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.device-card {
+  background: #041526;
+  border: 1px solid #11466a;
+  border-radius: 12px;
+  padding: 12px;
+  line-height: 1.45;
+  color: #d7f3ff;
+}
+
+.device-card strong {
+  color: #00d9ff;
+}
+
+.alert-card {
+  background: rgba(90,0,18,0.55);
+  border: 1px solid #ff2d55;
+  color: #ffd6de;
+  border-radius: 12px;
+  padding: 12px;
+  line-height: 1.4;
+}
+
+.packet {
+  background: #041526;
+  border-left: 3px solid #00d9ff;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-family: monospace;
+  color: #d7f3ff;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.good {
+  color: #00ff88;
+  font-weight: bold;
+}
+
+.bad {
+  color: #ff4d6d;
+  font-weight: bold;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #02101c;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0d3b5c;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #14527d;
+}
+
+@media (max-width: 1400px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+
+  .map-panel,
+  .spectrum-panel,
+  .devices-panel,
+  .alerts-panel,
+  .captures-panel,
+  .packets-panel {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  #map,
+  #spectrum {
+    height: 320px;
+  }
+
+  #devices {
+    max-height: 420px;
+  }
+}

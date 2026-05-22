@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SDRForge ADS-B Tracker</title>
+
+    <meta charset="utf-8"/>
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+
+        body {
+            margin: 0;
+            background: #050505;
+            color: #00ff88;
+            font-family: Consolas, monospace;
+            overflow: hidden;
+        }
+
+        header {
+            height: 60px;
+            background: #101010;
+            border-bottom: 1px solid #00ff88;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 20px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        #mode {
+            color: white;
+            font-size: 13px;
+        }
+
+        #layout {
+            display: grid;
+            grid-template-columns: 72% 28%;
+            height: calc(100vh - 60px);
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        #panel {
+            background: #090909;
+            border-left: 1px solid #00ff88;
+            overflow-y: auto;
+            padding: 12px;
+        }
+
+        .card {
+            border: 1px solid #00ff88;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #111;
+        }
+
+        .callsign {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .small {
+            font-size: 12px;
+            color: #9affc7;
+        }
+
+        .edu {
+            border-top: 1px solid #00ff88;
+            margin-top: 20px;
+            padding-top: 14px;
+            font-size: 13px;
+            color: #d7ffe8;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+
+            background: #111;
+            border: 1px solid #00ff88;
+
+            color: #00ff88;
+
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #00ff88;
+            color: black;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>SDRForge ADS-B Aircraft Tracker</h1>
+    <div id="mode">Connecting...</div>
+</header>
+
+<div id="layout">
+
+    <div id="map"></div>
+
+    <div id="panel">
+
+        <h2>Aircraft</h2>
+
+        <div id="aircraft-list"></div>
+
+        <div class="edu">
+
+            <h3>Educational Info</h3>
+
+            <p>
+                ADS-B is an aircraft surveillance technology where aircraft
+                broadcast their position, altitude, speed, and identity.
+            </p>
+
+            <p>
+                This SDRForge lab uses real-world aircraft telemetry data
+                from OpenSky Network.
+            </p>
+
+            <p>
+                No SDR hardware is required.
+            </p>
+
+            <button onclick="centerMap()">
+                Center Map
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const map = L.map("map").setView([39.5, -98.35], 4);
+
+L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+        maxZoom: 18,
+        attribution: "© OpenStreetMap"
+    }
+).addTo(map);
+
+let markers = {};
+
+const planeIcon = L.divIcon({
+    html: "✈",
+    className: "",
+    iconSize: [24, 24],
+    iconAnchor: [12, 12]
+});
+
+function centerMap() {
+
+    const values = Object.values(markers);
+
+    if (values.length === 0) {
+        return;
+    }
+
+    const group = L.featureGroup(values);
+
+    map.fitBounds(group.getBounds().pad(0.2));
+}
+
+function renderAircraft(aircraft) {
+
+    const list = document.getElementById("aircraft-list");
+
+    list.innerHTML = "";
+
+    aircraft.forEach(ac => {
+
+        const id = ac.icao;
+
+        if (!markers[id]) {
+
+            markers[id] = L.marker(
+                [ac.lat, ac.lon],
+                {
+                    icon: planeIcon
+                }
+            ).addTo(map);
+        }
+
+        markers[id].setLatLng([ac.lat, ac.lon]);
+
+        markers[id].bindPopup(`
+            <b>${ac.callsign}</b><br>
+            ICAO: ${ac.icao}<br>
+            Altitude: ${ac.altitude} ft<br>
+            Speed: ${ac.speed} kt<br>
+            Heading: ${ac.heading}°
+        `);
+
+        const card = document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML = `
+            <div class="callsign">${ac.callsign}</div>
+
+            <div class="small">
+                ICAO: ${ac.icao}
+            </div>
+
+            <div>
+                Altitude: ${ac.altitude} ft
+            </div>
+
+            <div>
+                Speed: ${ac.speed} kt
+            </div>
+
+            <div>
+                Heading: ${ac.heading}°
+            </div>
+
+            <div>
+                Vertical Rate: ${ac.vertical_rate} ft/min
+            </div>
+
+            <div class="small">
+                ${ac.lat.toFixed(4)},
+                ${ac.lon.toFixed(4)}
+            </div>
+        `;
+
+        list.appendChild(card);
+    });
+}
+
+async function updateAircraft() {
+
+    try {
+
+        const response = await fetch("/api/aircraft");
+
+        const data = await response.json();
+
+        document.getElementById("mode").innerText = data.mode;
+
+        renderAircraft(data.aircraft);
+
+    } catch (err) {
+
+        document.getElementById("mode").innerText = "Connection error";
+    }
+}
+
+async function sendHeartbeat() {
+
+    try {
+
+        await fetch("/api/heartbeat", {
+            method: "POST"
+        });
+
+    } catch (err) {}
+}
+
+sendHeartbeat();
+updateAircraft();
+
+setInterval(sendHeartbeat, 2000);
+setInterval(updateAircraft, 3000);
+
+</script>
+
+</body>
+</html>

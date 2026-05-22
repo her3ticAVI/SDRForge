@@ -7,7 +7,7 @@ import subprocess
 from pathlib import Path
 
 
-LAB_NAME = "Radio"
+LAB_NAME = "Radio Sandbox"
 
 LAB_DESC = (
     "Starter sandbox lab for experimenting with GNU Radio.\n\n"

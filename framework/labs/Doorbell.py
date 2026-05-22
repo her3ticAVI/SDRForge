@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-LAB_NAME = "Doorbell_Relay"
+LAB_NAME = "Doorbell Relay"
 
 LAB_DESC = (
     "Software-only OOK/ASK wireless doorbell simulation.\n\n"

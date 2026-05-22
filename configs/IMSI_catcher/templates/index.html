@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IMSI Catcher</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>IMSI Catcher</h1>
+      <p>Software-only IMSI catcher & rogue tower simulator</p>
+    </div>
+
+    <div class="status">
+      SIMULATION ACTIVE
+    </div>
+  </header>
+
+  <main>
+
+    <section class="panel map-panel">
+      <h2>Cellular Field Map</h2>
+      <canvas id="map"></canvas>
+    </section>
+
+    <section class="panel spectrum-panel">
+      <h2>RF Spectrum / Waterfall</h2>
+      <canvas id="spectrum"></canvas>
+    </section>
+
+    <section class="panel devices-panel">
+      <h2>Devices</h2>
+      <div id="devices"></div>
+    </section>
+
+    <section class="panel alerts-panel">
+      <h2>Alerts</h2>
+      <div id="alerts"></div>
+    </section>
+
+    <section class="panel captures-panel">
+      <h2>Captured IMSIs</h2>
+      <div id="captures"></div>
+    </section>
+
+    <section class="panel packets-panel">
+      <h2>LTE Attach / Handoff Feed</h2>
+      <div id="packets"></div>
+    </section>
+
+  </main>
+
+  <script src="/static/sim.js"></script>
+</body>
+</html>
