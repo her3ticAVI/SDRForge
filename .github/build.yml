@@ -1,0 +1,49 @@
+name: Build & Test SDRForge
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 9 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install pytest
+
+      - name: Syntax check
+        run: |
+          python -m compileall .
+
+      - name: Run tests
+        run: |
+          if [ -d tests ]; then pytest -q; else echo "No tests folder found, skipping pytest"; fi
+
+      - name: Upload source artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SDRForge-${{ github.sha }}
+          path: |
+            .
+            !.git
