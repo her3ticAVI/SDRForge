@@ -25,7 +25,7 @@
   </h4>
 </div>
 <hr>
-<a href="https://blackhillsinfosec.com"><img width="75%" height="75%" src="https://github.com/her3ticAVI/SDRForge/images/SDRForgeWorking.png" alt="SDRForge Running" /></a>
+<a href="https://blackhillsinfosec.com"><img width="75%" height="75%" src="images/SDRForgeWorking.png" alt="SDRForge Running" /> </a>
 <div align="left">
 
 ## Navigation
