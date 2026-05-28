@@ -1,5 +1,5 @@
 <div align="center">
-<a href="https://blackhillsinfosec.com"><img width="100%" src="https://github.com/her3ticAVI/SDRForge/blob/main/images/SDRLogoDark.png" alt="SDRForge Logo" /></a>
+<a href="https://blackhillsinfosec.com"><img width="100%" src="/images/SDRLogoDark.png" alt="SDRForge Logo" /></a>
 <hr>
 
   <a href="https://github.com/blackhillsinfosec/SDRForge/actions"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/blackhillsinfosec/SDRForge/build.yml?style=flat-square"></a> 
