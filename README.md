@@ -33,7 +33,7 @@
 > Note: `SDRForge` is still in its infancy constantly changing and growing, with growth comes issues and pain. This product is not promised to be stable, and should not be used outside of a virtual machine at this time.
 
 - [Installation Documentation](https://sdrforge.github.io/docs/Installation)
-- [Walkthroughs](https://sdrforge.github.io/docs/Lab-Walkthroughs/)
+- [Walkthroughs](https://sdrforge.github.io/docs/Lab-Walkthroughs/GPS-Spoof)
 - [Troubleshooting](https://sdrforge.github.io/docs/Troubleshooting)
 - [Overview](https://sdrforge.github.io/Overview)
 - [Contributing](https://sdrforge.github.io/Development)
