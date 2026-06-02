@@ -1,5 +1,5 @@
 <div align="center">
-<a href="https://blackhillsinfosec.com"><img width="100%" src="/images/SDRLogoDark.png" alt="SDRForge Logo" /></a>
+<a href="https://blackhillsinfosec.com"><img width="100%" src="images/SDRLogoDark.png" alt="SDRForge Logo" /></a>
 <hr>
 
   <a href="https://github.com/blackhillsinfosec/SDRForge/actions"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/blackhillsinfosec/SDRForge/build.yml?style=flat-square"></a> 
@@ -32,9 +32,9 @@
 
 > Note: `SDRForge` is still in its infancy constantly changing and growing, with growth comes issues and pain. This product is not promised to be stable, and should not be used outside of a virtual machine at this time.
 
-- [Installation Documentation](https://sdrforge.github.io/Installation)
-- [Walkthroughs](https://sdrforge.github.io/Lab-Walkthroughs/)
-- [Troubleshooting](https://sdrforge.github.io/Troubleshooting)
+- [Installation Documentation](https://sdrforge.github.io/docs/Installation)
+- [Walkthroughs](https://sdrforge.github.io/docs/Lab-Walkthroughs/)
+- [Troubleshooting](https://sdrforge.github.io/docs/Troubleshooting)
 - [Overview](https://sdrforge.github.io/Overview)
 - [Contributing](https://sdrforge.github.io/Development)
 
