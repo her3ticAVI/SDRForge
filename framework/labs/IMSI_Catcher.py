@@ -5,7 +5,7 @@ import sys
 import time
 import webbrowser
 
-LAB_NAME = "IMSI_Catcher"
+LAB_NAME = "IMSI Catcher"
 LAB_DESC = "Software-only IMSI catcher simulator with rogue tower detection and RF visualization."
 
 URL = "http://127.0.0.1:5055"

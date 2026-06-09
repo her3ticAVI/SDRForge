@@ -26,6 +26,7 @@ def clean_len(s: str) -> int:
 def find_project_root(start: Path) -> Path:
     for path in [start, *start.parents]:
         labs_dir = path / "framework" / "labs"
+
         if labs_dir.exists() and labs_dir.is_dir():
             return path
 
@@ -45,7 +46,7 @@ class LabInfo:
     function: object
 
 
-ascii_art = """
+ascii_art = r"""
                                             ▪  ▪  ▪
                                               ▪█▪
                                          ▄█▄   █   ▄█▄
@@ -80,8 +81,10 @@ def import_module_and_get_function(file_path: Path, module_name: str):
 
     if hasattr(module, "run") and callable(module.run):
         function = module.run
+
     elif hasattr(module, "main") and callable(module.main):
         function = module.main
+
     else:
         functions = {
             name: func
@@ -170,16 +173,17 @@ def print_logo(
     center_left: int,
     center_width: int,
 ) -> int:
-    lines = art.strip("\n").splitlines()
+    lines = textwrap.dedent(art).strip("\n").splitlines()
     logo_width = max(clean_len(line) for line in lines)
-
     logo_left = center_left + max((center_width - logo_width) // 2, 0)
 
     for i, line in enumerate(lines):
         print(term.move(top + i, logo_left) + line)
+    by_text = "By BHIS"
     by_row = top + len(lines)
-    by_left = logo_left + 14
-    print(term.move(by_row, by_left) + term.red("By BHIS"))
+    by_left = logo_left
+
+    print(term.move(by_row, by_left) + term.red(by_text))
 
     return by_row + 1
 
@@ -234,7 +238,7 @@ def print_menu(
 
         logo_bottom = print_logo(
             term=term,
-            top=1,
+            top=2,
             art=ascii_art,
             center_left=outer_left,
             center_width=outer_width,
